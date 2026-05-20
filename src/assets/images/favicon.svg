@@ -1,0 +1,49 @@
+<svg width="600" height="600" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 定义发光滤镜，让雪花更有梦幻感 -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- 定义雪花的基础单臂，后续会复制并旋转6次 -->
+    <g id="arm">
+      <!-- 主干 -->
+      <line x1="0" y1="0" x2="0" y2="-90" stroke="#0084ff" stroke-width="4" stroke-linecap="round" />
+      
+      <!-- 内部分支 -->
+      <line x1="0" y1="-25" x2="-15" y2="-45" stroke="#0084ff" stroke-width="3" stroke-linecap="round" />
+      <line x1="0" y1="-25" x2="15" y2="-45" stroke="#0084ff" stroke-width="3" stroke-linecap="round" />
+      
+      <!-- 内部分支上的小分叉 -->
+      <line x1="-7.5" y1="-35" x2="-23" y2="-40" stroke="#0084ff" stroke-width="2" stroke-linecap="round" />
+      <line x1="7.5" y1="-35" x2="23" y2="-40" stroke="#0084ff" stroke-width="2" stroke-linecap="round" />
+      
+      <!-- 外部分支 -->
+      <line x1="0" y1="-60" x2="-18" y2="-78" stroke="#0084ff" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="0" y1="-60" x2="18" y2="-78" stroke="#0084ff" stroke-width="2.5" stroke-linecap="round" />
+      
+      <!-- 外部分支上的小分叉 -->
+      <line x1="-9" y1="-69" x2="-25" y2="-72" stroke="#0084ff" stroke-width="1.5" stroke-linecap="round" />
+      <line x1="9" y1="-69" x2="25" y2="-72" stroke="#0084ff" stroke-width="1.5" stroke-linecap="round" />
+      
+      <!-- 末梢点缀的小冰晶点 -->
+      <circle cx="0" cy="-90" r="4" fill="#0084ff" />
+      <circle cx="-18" cy="-78" r="2.5" fill="#0084ff" />
+      <circle cx="18" cy="-78" r="2.5" fill="#0084ff" />
+    </g>
+  </defs>
+
+  <!-- 利用旋转生成完整的六瓣雪花 -->
+  <g filter="url(#glow)">
+    <use href="#arm" />
+    <use href="#arm" transform="rotate(60)" />
+    <use href="#arm" transform="rotate(120)" />
+    <use href="#arm" transform="rotate(180)" />
+    <use href="#arm" transform="rotate(240)" />
+    <use href="#arm" transform="rotate(300)" />
+  </g>
+
+  <!-- 雪花中心核 -->
+  <circle cx="0" cy="0" r="8" fill="#0084ff" filter="url(#glow)" />
+</svg>

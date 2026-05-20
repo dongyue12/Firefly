@@ -5,14 +5,14 @@ import { siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
 import { i18n } from "@/i18n/translation";
 import {
-	getCategoryList,
-	getSortedPosts,
-	getTagList,
+  getCategoryList,
+  getSortedPosts,
+  getTagList,
 } from "@/utils/content-utils";
 
 interface Props {
-	class?: string;
-	style?: string;
+  class?: string;
+  style?: string;
 }
 
 const { class: className, style } = Astro.props;
@@ -28,107 +28,147 @@ const tags = await getTagList();
 // 计算总字数
 let totalWords = 0;
 for (const post of posts) {
-	if (post.body) {
-		// 移除代码块和内联代码后计算字数
-		let text = post.body
-			.replace(/```[\s\S]*?```/g, "") // 移除代码块
-			.replace(/`[^`]*`/g, "") // 移除内联代码
-			.replace(/\s+/g, " ") // 合并空白
-			.trim();
+  if (post.body) {
+    // 移除代码块和内联代码后计算字数
+    let text = post.body
+      .replace(/```[\s\S]*?```/g, "") // 移除代码块
+      .replace(/`[^`]*`/g, "") // 移除内联代码
+      .replace(/\s+/g, " ") // 合并空白
+      .trim();
 
-		// 分别计算中文字符和英文字符
-		const chineseChars = text.match(/[\u4e00-\u9fa5]/g) || [];
-		const englishChars = text.match(/[a-zA-Z]/g) || [];
+    // 分别计算中文字符和英文字符
+    const chineseChars = text.match(/[一-龥]/g) || [];
+    const englishChars = text.match(/[a-zA-Z]/g) || [];
 
-		totalWords += chineseChars.length + englishChars.length;
-	}
+    totalWords += chineseChars.length + englishChars.length;
+  }
 }
 
 // 格式化数字（添加千位分隔符）
 function formatNumber(num: number): string {
-	return num.toLocaleString();
+  return num.toLocaleString();
 }
 
 // 获取最新文章日期（用于客户端计算）
 const latestPost = posts.reduce((latest, post) => {
-	if (!latest) return post;
-	return post.data.published > latest.data.published ? post : latest;
+  if (!latest) return post;
+  return post.data.published > latest.data.published ? post : latest;
 }, posts[0]);
 
 const lastPostDate = latestPost
-	? latestPost.data.published.toISOString()
-	: null;
+  ? latestPost.data.published.toISOString()
+  : null;
 
 const todayText = i18n(I18nKey.today);
 
 const stats = [
-	{
-		icon: "material-symbols:article-outline",
-		label: i18n(I18nKey.siteStatsPostCount),
-		value: posts.length,
-	},
-	{
-		icon: "material-symbols:folder-outline",
-		label: i18n(I18nKey.siteStatsCategoryCount),
-		value: categories.length,
-	},
-	{
-		icon: "material-symbols:label-outline",
-		label: i18n(I18nKey.siteStatsTagCount),
-		value: tags.length,
-	},
-	{
-		icon: "material-symbols:text-ad-outline-rounded",
-		label: i18n(I18nKey.siteStatsTotalWords),
-		value: totalWords,
-		formatted: true,
-	},
-	{
-		icon: "material-symbols:calendar-clock-outline",
-		label: i18n(I18nKey.siteStatsRunningDays),
-		value: 0, // 将由客户端更新
-		suffix: i18n(I18nKey.siteStatsDays).replace("{days}", ""),
-		dynamic: true,
-		id: "running-days",
-	},
-	{
-		icon: "mingcute:heartbeat-line",
-		label: i18n(I18nKey.siteStatsLastUpdate),
-		value: 0, // 将由客户端更新
-		suffix: i18n(I18nKey.siteStatsDaysAgo).replace("{days}", ""),
-		dynamic: true,
-		id: "last-update",
-	},
+  {
+    icon: "material-symbols:visibility-outline-rounded",
+    label: "今日访问量",
+    value: 0,
+    busuanziId: "busuanzi_today_pv",
+  },
+  {
+    icon: "material-symbols:groups-outline-rounded",
+    label: "今日访客数",
+    value: 0,
+    busuanziId: "busuanzi_today_uv",
+  },
+  {
+    icon: "material-symbols:visibility-outline-rounded",
+    label: "本站总访问量",
+    value: 0,
+    busuanziId: "busuanzi_site_pv",
+  },
+  {
+    icon: "material-symbols:group-outline-rounded",
+    label: "本站总访客数",
+    value: 0,
+    busuanziId: "busuanzi_site_uv",
+  },
+  {
+    icon: "material-symbols:article-outline",
+    label: i18n(I18nKey.siteStatsPostCount),
+    value: posts.length,
+  },
+  // {
+  //   icon: "material-symbols:folder-outline",
+  //   label: i18n(I18nKey.siteStatsCategoryCount),
+  //   value: categories.length,
+  // },
+  // {
+  //   icon: "material-symbols:label-outline",
+  //   label: i18n(I18nKey.siteStatsTagCount),
+  //   value: tags.length,
+  // },
+  {
+    icon: "material-symbols:text-ad-outline-rounded",
+    label: i18n(I18nKey.siteStatsTotalWords),
+    value: totalWords,
+    formatted: true,
+  },
+  {
+    icon: "material-symbols:calendar-clock-outline",
+    label: i18n(I18nKey.siteStatsRunningDays),
+    value: 0, // 将由客户端更新
+    suffix: i18n(I18nKey.siteStatsDays).replace("{days}", ""),
+    dynamic: true,
+    id: "running-days",
+  },
+  {
+    icon: "mingcute:heartbeat-line",
+    label: i18n(I18nKey.siteStatsLastUpdate),
+    value: 0, // 将由客户端更新
+    suffix: i18n(I18nKey.siteStatsDaysAgo).replace("{days}", ""),
+    dynamic: true,
+    id: "last-update",
+  },
 ];
 ---
 
-<WidgetLayout name={i18n(I18nKey.siteStats)} id="site-stats" class={className} style={style}>
+<WidgetLayout
+  name={i18n(I18nKey.siteStats)}
+  id="site-stats"
+  class={className}
+  style={style}
+>
   <div class="flex flex-col gap-2">
-    {stats.map((stat) => (
-      <div class="flex items-center justify-between px-3 py-1.5">
-        <div class="flex items-center gap-2.5">
-          <div class="text-(--primary) text-xl">
-            <Icon name={stat.icon} />
-          </div>
-          <span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
-            {stat.label}
-          </span>
-        </div>
-        <div class="flex items-center">
-          <span 
-            class="text-base font-bold text-neutral-900 dark:text-neutral-100"
-            data-stat-id={stat.id}
-          >
-            {stat.formatted ? formatNumber(stat.value) : stat.value}
-          </span>
-          {stat.suffix && (
-            <span class="text-sm text-neutral-500 dark:text-neutral-400 ml-1">
-              {stat.suffix}
+    {
+      stats.map((stat) => (
+        <div class="flex items-center justify-between px-3 py-1.5">
+          <div class="flex items-center gap-2.5">
+            <div class="text-(--primary) text-xl">
+              <Icon name={stat.icon} />
+            </div>
+            <span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+              {stat.label}
             </span>
-          )}
+          </div>
+          <div class="flex items-center">
+            {stat.busuanziId ? (
+              <span
+                id={stat.busuanziId}
+                class="text-base font-bold text-neutral-900 dark:text-neutral-100"
+              >
+                ...
+              </span>
+            ) : (
+              <span
+                class="text-base font-bold text-neutral-900 dark:text-neutral-100"
+                data-stat-id={stat.id}
+              >
+                {stat.formatted ? formatNumber(stat.value) : stat.value}
+              </span>
+            )}
+            {stat.suffix && (
+              <span class="text-sm text-neutral-500 dark:text-neutral-400 ml-1">
+                {stat.suffix}
+              </span>
+            )}
+          </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </WidgetLayout>
 
@@ -141,7 +181,9 @@ const stats = [
     const diffTime = Math.abs(today.getTime() - startDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    const runningDaysElements = document.querySelectorAll('[data-stat-id="running-days"]');
+    const runningDaysElements = document.querySelectorAll(
+      '[data-stat-id="running-days"]',
+    );
     runningDaysElements.forEach((element) => {
       element.textContent = diffDays.toString();
     });
@@ -150,19 +192,23 @@ const stats = [
     if (lastPostDate) {
       const lastPost = new Date(lastPostDate);
       const timeSinceLastPost = Math.abs(today.getTime() - lastPost.getTime());
-      const daysSinceLastUpdate = Math.floor(timeSinceLastPost / (1000 * 60 * 60 * 24));
+      const daysSinceLastUpdate = Math.floor(
+        timeSinceLastPost / (1000 * 60 * 60 * 24),
+      );
 
-      const lastUpdateElements = document.querySelectorAll('[data-stat-id="last-update"]');
+      const lastUpdateElements = document.querySelectorAll(
+        '[data-stat-id="last-update"]',
+      );
       lastUpdateElements.forEach((element) => {
         if (daysSinceLastUpdate === 0) {
           element.textContent = todayText;
           if (element.nextElementSibling) {
-            element.nextElementSibling.style.display = 'none';
+            element.nextElementSibling.style.display = "none";
           }
         } else {
           element.textContent = daysSinceLastUpdate.toString();
           if (element.nextElementSibling) {
-            element.nextElementSibling.style.display = '';
+            element.nextElementSibling.style.display = "";
           }
         }
       });

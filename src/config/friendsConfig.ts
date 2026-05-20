@@ -23,31 +23,39 @@ export const friendsPageConfig: FriendsPageConfig = {
 // 友链配置
 export const friendsConfig: FriendLink[] = [
 	{
-		title: "夏夜流萤",
-		imgurl:
-			"https://weavatar.com/avatar/d252655d40d6874417a720bad0a6c5f77f8f6a1fd2f882f8f338402dc37e4190?s=640",
-		desc: "飞萤之火自无梦的长夜亮起，绽放在终竟的明天。",
-		siteurl: "https://blog.cuteleaf.cn",
+		title: "清遥",
+		imgurl: "https://upyun.askrabbit.net/avatar.png",
+		desc: "遥夜泛清瑟，西风生翠萝。",
+		siteurl: "https://blog.askrabbit.net/",
 		tags: ["Blog"],
-		weight: 10, // 权重，数字越大排序越靠前
-		enabled: true, // 是否启用
+		weight: 10,
+		enabled: true,
 	},
 	{
-		title: "Firefly Docs",
-		imgurl: "https://docs-firefly.cuteleaf.cn/logo.png",
-		desc: "Firefly主题模板文档",
-		siteurl: "https://docs-firefly.cuteleaf.cn",
-		tags: ["Docs"],
+		title: "许家大院",
+		imgurl: "https://blog.hesuisui.top/upload/ok-logo.png",
+		desc: "经常更新一些故事很有趣",
+		siteurl: "https://blog.hesuisui.top/",
+		tags: ["Blog"],
 		weight: 9,
 		enabled: true,
 	},
 	{
-		title: "Astro",
-		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
-		desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
-		siteurl: "https://github.com/withastro/astro",
-		tags: ["Framework"],
+		title: "椰汁の小站",
+		imgurl: "https://free.picui.cn/free/2026/03/23/69c12fe83f7a4.jpg",
+		desc: "一个热爱编程的学生",
+		siteurl: "https://home.132614.xyz/",
+		tags: ["Blog"],
 		weight: 8,
+		enabled: true,
+	},
+	{
+		title: "番茄主理人",
+		imgurl: "https://q1.qlogo.cn/g?b=qq&nk=20447289&s=640",
+		desc: "坐而言不如起而行.",
+		siteurl: "https://fqzlr.com/",
+		tags: ["Blog"],
+		weight: 7,
 		enabled: true,
 	},
 ];
