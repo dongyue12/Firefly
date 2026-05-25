@@ -1,0 +1,111 @@
+/*
+ * Waline 主题覆盖样式
+ * 在 waline.css 之后加载，覆盖默认样式并跟随站点主题色。
+ * Firefly 主题专用：https://github.com/CuteLeaf/Firefly
+ *
+ * 注意：Waline v3 在 :root 上声明了这些变量（如 --waline-bg-color），
+ * 必须使用 !important 确保覆盖 Waline 自身的 :root 声明。
+ */
+
+/* 基础变量：将博客 CSS 变量映射到 Waline CSS 变量 */
+:root {
+  --waline-theme-color: var(--primary) !important;
+  --waline-active-color: var(--primary) !important;
+  --waline-bg-color: var(--card-bg) !important;
+  --waline-bg-color-light: var(--card-bg) !important;
+  --waline-bg-color-hover: var(--btn-plain-bg-hover) !important;
+  --waline-border-color: var(--line-divider) !important;
+  --waline-disable-bg-color: var(--btn-regular-bg) !important;
+  --waline-disable-color: var(--content-meta) !important;
+  --waline-code-bg-color: var(--codeblock-bg) !important;
+  --waline-bq-color: var(--btn-content) !important;
+  --waline-info-bg-color: var(--btn-regular-bg) !important;
+  --waline-info-color: var(--btn-content) !important;
+  --waline-badge-color: var(--primary) !important;
+  --waline-color: var(--deep-text) !important;
+  --waline-white: var(--card-bg) !important;
+  --waline-dark-grey: var(--deep-text) !important;
+  --waline-light-grey: var(--content-meta) !important;
+  --waline-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 暗色模式变量 */
+:root.dark {
+  --waline-color: color-mix(in oklch, var(--card-bg) 20%, #fff 80%) !important;
+  --waline-dark-grey: color-mix(in oklch, var(--card-bg) 20%, #fff 80%) !important;
+  --waline-light-grey: var(--content-meta) !important;
+  --waline-bg-color-hover: var(--btn-plain-bg-hover) !important;
+  --waline-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 全屏透明模式：修改变量值 */
+body.wallpaper-transparent {
+  --waline-bg-color: var(--card-bg-transparent) !important;
+  --waline-bg-color-light: var(--card-bg-transparent) !important;
+  --waline-border-color: color-mix(in oklch, var(--line-divider) 70%, transparent 30%) !important;
+  --waline-color: color-mix(in oklch, var(--card-bg) 8%, #000 92%) !important;
+  --waline-dark-grey: color-mix(in oklch, var(--card-bg) 8%, #000 92%) !important;
+  --waline-light-grey: color-mix(in oklch, var(--card-bg) 28%, #666 72%) !important;
+  --waline-disable-bg-color: color-mix(in oklch, var(--card-bg) 85%, transparent) !important;
+}
+
+/* 全屏透明模式（暗色）：提高文字对比度 */
+:root.dark body.wallpaper-transparent {
+  --waline-color: color-mix(in oklch, var(--card-bg) 8%, #fff 92%) !important;
+  --waline-dark-grey: color-mix(in oklch, var(--card-bg) 8%, #fff 92%) !important;
+  --waline-light-grey: color-mix(in oklch, var(--card-bg) 40%, #c0c4cc 60%) !important;
+}
+
+/* 全屏透明模式：wl-panel 独立透明背景 + 毛玻璃 */
+body.wallpaper-transparent .wl-panel {
+  background: color-mix(in oklch, var(--card-bg) 45%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 全屏透明模式：弹窗等元素也加毛玻璃 */
+body.wallpaper-transparent .wl-emoji-popup,
+body.wallpaper-transparent .wl-gif-popup,
+body.wallpaper-transparent .wl-editor:focus,
+body.wallpaper-transparent .wl-tab.active {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 全屏透明模式：#waline 容器毛玻璃效果
+   Waline 编辑器元素默认透明（.wl-editor { background: transparent }），
+   用户看到的"黑色"是外层 card-base 的半透明背景透出来的。
+   这里给 #waline 加独立的半透明背景 + backdrop-filter 实现毛玻璃。 */
+body.wallpaper-transparent #waline {
+  background: color-mix(in oklch, var(--card-bg) 45%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+}
+
+/* Emoji 面板边框适配 */
+.wl-emoji-popup {
+  border-color: var(--line-divider) !important;
+}
+
+/* 输入框 focus 态：外发光跟随主题色 */
+.wl-editor:focus,
+.wl-input:focus {
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--primary) 20%, transparent);
+}
+
+/* 评论操作按钮悬停态 */
+.wl-comment-actions button:hover {
+  color: var(--primary);
+}
+
+/* 链接跟随主题色 */
+.wl-content a {
+  color: var(--primary);
+}
+
+/* 分页按钮主题化 */
+.wl-pagination .wl-btn:hover:not(:disabled) {
+  color: var(--primary);
+  border-color: var(--primary);
+}
