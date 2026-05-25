@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": ["../../../worker.js"],
+  "sourceRoot": "D:\\backup\\Firefly\\.wrangler\\tmp\\deploy-3ViF4u",
+  "sourcesContent": ["export default {\n\tasync fetch(request, env) {\n\t\treturn env.ASSETS.fetch(request);\n\t},\n};\n"],
+  "mappings": ";AAAA,IAAO,iBAAQ;AAAA,EACd,MAAM,MAAM,SAAS,KAAK;AACzB,WAAO,IAAI,OAAO,MAAM,OAAO;AAAA,EAChC;AACD;",
+  "names": []
+}
